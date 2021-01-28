@@ -1,13 +1,13 @@
-package com.example.restaurantAppBackend;
+package com.example.restaurantappBackend;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class RestaurantAppBackendApplicationTests {
+class RestaurantappBackendApplicationTests {
 
-	@Test
-	void contextLoads() {
-	}
+    @Test
+    void contextLoads() {
+    }
 
 }
