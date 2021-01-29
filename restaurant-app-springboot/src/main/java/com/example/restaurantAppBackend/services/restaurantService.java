@@ -1,16 +1,15 @@
 package com.example.restaurantappBackend.services;
 
 import com.example.restaurantappBackend.model.Restaurant;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-public interface restaurantService {
+@Component
+public interface RestaurantService {
 
-    Restaurant save(Restaurant restaurant);
 
-    Restaurant findByrestaurantID(Long restaurantID);
-
-    List<Restaurant> findRestaurants(List<Long> restaurantIDlist);
+    Restaurant findRestaurantByID(Integer restaurantID);
 
     List<Restaurant> findAllRestaurant();
 }

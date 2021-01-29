@@ -13,99 +13,84 @@
       <div class="col-8">
         <form>
           <div class="form-group">
-            <h2>Customize Pizza</h2>
-            <hr>
-            <h4>Basics</h4>
-            <div class="form-check form-check-inline">
-              <input
-                type="checkbox"
-                class="form-check-input"
-                id="extracheese"
-              />
-              <label class="form-check-label" for="extracheese"
-                >Extra Cheese</label
-              >|
-              <input
-                type="checkbox"
-                class="form-check-input"
-                id="NoOnions"
-              />
-              <label class="form-check-label" for="NoOnions"
-                >No Onions</label
-              >
-              |
-              <input
-                type="checkbox"
-                class="form-check-input"
-                id="ExtraSpicy"
-              />
-              <label class="form-check-label" for="ExtraSpicy"
-                >Extra Spicy</label
-              >
-            </div>
-          </div>
-          <h4>Extra Toppings </h4>
-          <div class="form-group">
-            <hr>
-            <div class="form-check form-check-inline">
-              <input
-                type="checkbox"
-                class="form-check-input"
-                id="ChickenSlices"
-              />
-              <label class="form-check-label" for="ChickenSlices"
-                >Chicken Slices</label
-              >|
-              <input
-                type="checkbox"
-                class="form-check-input"
-                id="CheeseSlices"
-              />
-              <label class="form-check-label" for="CheeseSlices"
-                >Cheese Slices</label
-              >
-              |
-              <input
-                type="checkbox"
-                class="form-check-input"
-                id="CheeseCrust"
-              />
-              <label class="form-check-label" for="CheeseCrust"
-                >Cheese Crust</label
-              >
-            </div>
-          </div>
-           <hr>
-          <div class="form-group">
-            <label for="exampleInputPassword1">Additional Comment</label>
-            <input
-              type="Test"
-              class="form-control"
-              id="Additional Comment"
-              placeholder="Don't Include Nuts"
-            />
-          </div>
-          <hr>
-          <div class="row">
-            <div class="col-6"></div>
-            <div class="col-6 pl-auto">
-              <button type="button" class="btn btn-primary btn-lg">
-                Add to Cart
-              </button>
-              <button type="button" class="btn btn-danger btn-lg">
-                Go Back
-              </button>
-            </div>
+            <template>
+              <v-card flat>
+                <v-card-text>
+                  <v-container fluid>
+                    <h4>Customize Pizza</h4>
+                    <v-row>
+                      <v-col cols="12" sm="4" md="4">
+                        <v-checkbox
+                          v-model="ex4"
+                          label="Extra Cheese"
+                          color="red"
+                          value="extraCheese"
+                          hide-details
+                        ></v-checkbox>
+                      </v-col>
+
+                      <v-col cols="12" sm="4" md="4">
+                        <v-checkbox
+                          v-model="ex4"
+                          label="Crusts Cut Off"
+                          color="indigo"
+                          value="crustCutOff"
+                          hide-details
+                        ></v-checkbox>
+                      </v-col>
+                      <v-col cols="12" sm="4" md="4">
+                        <v-checkbox
+                          v-model="ex4"
+                          label="No Onions"
+                          color="red darken-3"
+                          value="noOnions"
+                          hide-details
+                        ></v-checkbox>
+                      </v-col>
+                    </v-row>
+
+                    <v-row class="mt-12">
+                      <v-col cols="12" sm="4" md="4">
+                        <v-checkbox
+                          v-model="ex4"
+                          label="Extra Cheese"
+                          color="primary"
+                          value="extraCheese"
+                          hide-details
+                        ></v-checkbox>
+                      </v-col>
+                      <v-col cols="12" sm="4" md="4">
+                        <v-checkbox
+                          v-model="ex4"
+                          label="Chicken Slices"
+                          color="secondary"
+                          value="chickenSlices"
+                          hide-details
+                        ></v-checkbox>
+                      </v-col>
+                      <v-col cols="12" sm="4" md="4">
+                        <v-checkbox
+                          v-model="ex4"
+                          label="Sausage Slices"
+                          color="secondary"
+                          value="sausageSlices"
+                          hide-details
+                        ></v-checkbox>
+                      </v-col>
+                    </v-row>
+                  </v-container>
+                </v-card-text>
+              </v-card>
+            </template>
           </div>
         </form>
       </div>
     </div>
   </div>
-  
 </template>
 
 <script>
-import PizzaCardCustomize from '../components/PizzaCardCustomize.vue';
+import PizzaCardCustomize from "../components/PizzaCardCustomize.vue";
 
 export default {
   components: { PizzaCardCustomize },
@@ -115,27 +100,4 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  margin: 2.5%;
-}
-
-button {
-  margin: 3%;
-}
-
-#pizzaCustomizationForm {
-  margin: 2%;
-  padding: 5%;
-}
 </style>

@@ -1,31 +1,24 @@
 package com.example.restaurantappBackend.services;
 
-import com.example.restaurantappBackend.Repositories.promotionRepo;
+import com.example.restaurantappBackend.Repositories.PromotionRepo;
 import com.example.restaurantappBackend.model.Promotion;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-public class promotionServiceImpl implements promotionService {
+@Service
+public class PromotionServiceImpl implements PromotionService {
 
-    @Autowired
-    private promotionRepo promotionRepositoty;
+    private final PromotionRepo promotionRepositoty;
 
-
-    @Override
-    public Promotion save(Promotion promotion) {
-        return promotionRepositoty.save(promotion);
+    public PromotionServiceImpl(PromotionRepo promotionRepositoty) {
+        this.promotionRepositoty = promotionRepositoty;
     }
 
 
     @Override
-    public Promotion findBypromoID(Long promoID) {
-        return promotionRepositoty.findById(promoID).orElse(null);
-    }
-
-    @Override
-    public List<Promotion> findpromos(List<Long> promoIDlist) {
-        return promotionRepositoty.findAllById(promoIDlist);
+    public Promotion findByPromoID(Integer promoID) {
+        return promotionRepositoty.findPromotionByPromoID(promoID);
     }
 
     @Override

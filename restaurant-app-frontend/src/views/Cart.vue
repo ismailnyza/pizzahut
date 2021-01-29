@@ -1,6 +1,6 @@
 <template>
-    <div>
-      <h3>You Currently have {{numberOfItemsInCard}} in your cart</h3>      
+    <div class="container" >
+      <h1>You Currently have in your cart</h1>      
       <hr>
       <div class="container">
       <table class="table">
@@ -23,9 +23,9 @@
   <thead>
       <tr>
       <th scope="col">Total</th>
-      <th scope="col">{{totalBill}}</th>
+      <th scope="col">{{  this.$store.state.count }}</th>
       <th scope="col"><button class="btn btn-primary" type="submit">Checkout</button></th>
-      <th scope="col"><button class="btn btn-primary" type="submit">Clear Cart</button></th>
+      <th scope="col"><button class="btn btn-primary" type="submit" @click="increment()">Clear Cart</button></th>
     </tr>
   </thead>
 </table>
@@ -35,13 +35,22 @@
 </template>
 
 <script>
-// @ is an alias to /src
 // import PizzaCard from '@/components/PizzaCard.vue'
 
 export default {
-  name: 'Cart',
+  data() {
+   
+  },
+  methods: {
+  increment() {
+    this.$store.commit('increment')
+    console.log(this.$store.state.count)
+  }
+}, 
   components: {
     // PizzaCard
   }
 }
 </script>
+<style>
+</style>

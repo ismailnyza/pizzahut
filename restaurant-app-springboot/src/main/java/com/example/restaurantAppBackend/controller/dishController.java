@@ -1,38 +1,34 @@
 package com.example.restaurantappBackend.controller;
 
-import com.example.restaurantappBackend.Repositories.dishRepo;
+import com.example.restaurantappBackend.Repositories.DishRepository;
 import com.example.restaurantappBackend.model.Dish;
+import com.example.restaurantappBackend.services.DishServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
-public class dishController {
-    private final dishRepo dishRepo;
+@CrossOrigin(origins = "*", allowedHeaders = "*")
+public class DishController {
+    @Autowired
+    private DishRepository DishRepository;
 
     @Autowired
-    private com.example.restaurantappBackend.services.dishService dishService;
+    private DishServiceImpl dishService;
 
-    dishController(com.example.restaurantappBackend.Repositories.dishRepo dishRepo, com.example.restaurantappBackend.services.dishService dishService) {
-        this.dishRepo = dishRepo;
+
+    @GetMapping("/service/Dish/getAllDishes")
+    public List<Dish> getAllDishes() {
+        return dishService.findAllDishes();
     }
 
-    @GetMapping("/service/getAllDishes")
-    public ResponseEntity<?> getAllDishes() {
-        return ResponseEntity.ok(dishService.findAllDishes());
-    }
-
-    @GetMapping("/service/{DishID}")
-    Dish tempdish(@PathVariable String DishID) {
-        return dishRepo.findById(Long.getLong(DishID)).orElseThrow();
-    }
-
-    //        test
-    @GetMapping("/service/test")
-    public String test() {
-        return ("works");
+    @GetMapping("/service/Dish/{DishID}")
+    public Dish getDishByID(@PathVariable Integer DishID) {
+        return dishService.findDishes(DishID);
     }
 
 

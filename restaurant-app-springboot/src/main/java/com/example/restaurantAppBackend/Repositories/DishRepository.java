@@ -4,14 +4,15 @@ import com.example.restaurantappBackend.model.Dish;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
-public interface dishRepo extends JpaRepository<Dish, Long> {
+public interface DishRepository extends JpaRepository<Dish, Long> {
 
-//    @Override
-//    Optional<dish> findById(Long userid);
+    Dish findDishByDishid(Integer dishid);
 
-//    @Override
-//    List<dish> findAll();
+    @Override
+    List<Dish> findAll();
 
 
 }

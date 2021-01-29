@@ -1,31 +1,24 @@
 package com.example.restaurantappBackend.services;
 
-import com.example.restaurantappBackend.Repositories.dishRepo;
+import com.example.restaurantappBackend.Repositories.DishRepository;
 import com.example.restaurantappBackend.model.Dish;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class dishServiceImpl implements dishService {
+public class DishServiceImpl implements DishService {
 
-    @Autowired
-    private dishRepo dishRepository;
+    private final DishRepository dishRepository;
 
-    @Override
-    public Dish save(Dish dish) {
-        return dishRepository.save(dish);
+    public DishServiceImpl(DishRepository dishRepository) {
+        this.dishRepository = dishRepository;
     }
 
-    @Override
-    public Dish findByDishID(Long dishID) {
-        return dishRepository.findById(dishID).orElse(null);
-    }
 
     @Override
-    public List<Dish> findDishes(List<Long> dishIDlist) {
-        return dishRepository.findAllById(dishIDlist);
+    public Dish findDishes(Integer dishID) {
+        return dishRepository.findDishByDishid(dishID);
     }
 
     @Override

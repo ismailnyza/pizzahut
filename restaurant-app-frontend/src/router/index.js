@@ -36,7 +36,6 @@ const routes = [
   }
   ,
 
-
   {
     path: '/CustomizePizza',
     name: 'CustomizePizza',
@@ -47,6 +46,8 @@ const routes = [
     name: 'Cart',
     component: Cart
   },
+
+  
 ]
 
 const router = new VueRouter({

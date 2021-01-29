@@ -1,31 +1,23 @@
 package com.example.restaurantappBackend.services;
 
-import com.example.restaurantappBackend.Repositories.restaurantRepo;
+import com.example.restaurantappBackend.Repositories.RestaurantRepo;
 import com.example.restaurantappBackend.model.Restaurant;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-public class restaurantServiceImpl implements restaurantService {
+@Service
+public class RestaurantServiceImpl implements RestaurantService {
 
-    private final restaurantRepo restaurantRepo;
+    private final RestaurantRepo restaurantRepo;
 
-    public restaurantServiceImpl(restaurantRepo restaurantRepo) {
+    public RestaurantServiceImpl(RestaurantRepo restaurantRepo) {
         this.restaurantRepo = restaurantRepo;
     }
 
     @Override
-    public Restaurant save(Restaurant restaurant) {
-        return restaurantRepo.save(restaurant);
-    }
-
-    @Override
-    public Restaurant findByrestaurantID(Long restaurantID) {
-        return restaurantRepo.findById(restaurantID).orElse(null);
-    }
-
-    @Override
-    public List<Restaurant> findRestaurants(List<Long> restaurantIDlist) {
-        return restaurantRepo.findAllById(restaurantIDlist);
+    public Restaurant findRestaurantByID(Integer restaurantID) {
+        return restaurantRepo.findRestaurantByRestaurantID(restaurantID);
     }
 
     @Override

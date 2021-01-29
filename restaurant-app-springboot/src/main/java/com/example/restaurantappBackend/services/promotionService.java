@@ -1,16 +1,15 @@
 package com.example.restaurantappBackend.services;
 
 import com.example.restaurantappBackend.model.Promotion;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-public interface promotionService {
+@Component
+public interface PromotionService {
 
-    Promotion save(Promotion promotion);
 
-    Promotion findBypromoID(Long promoID);
-
-    List<Promotion> findpromos(List<Long> promoIDlist);
+    Promotion findByPromoID(Integer promoID);
 
     List<Promotion> findAllpromos();
 }

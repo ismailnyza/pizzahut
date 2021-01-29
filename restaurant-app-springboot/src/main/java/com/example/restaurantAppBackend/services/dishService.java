@@ -6,12 +6,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public interface dishService {
-    Dish save(Dish dish);
-
-    Dish findByDishID(Long dishID);
-
-    List<Dish> findDishes(List<Long> dishIDlist);
-
+public interface DishService {
+    Dish findDishes(Integer dishIDList);
     List<Dish> findAllDishes();
 }
