@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
-import CustomizePizza from '../views/CustomizePizza.vue'
 import OrderOnline from '../views/OrderOnline.vue'
 import Promotions from '../views/Promotions.vue'
 import Restaurants from '../views/Restaurants'
@@ -36,12 +35,7 @@ const routes = [
   }
   ,
 
-  {
-    path: '/CustomizePizza',
-    name: 'CustomizePizza',
-    component: CustomizePizza
-  },
-  {
+    {
     path: '/Cart',
     name: 'Cart',
     component: Cart

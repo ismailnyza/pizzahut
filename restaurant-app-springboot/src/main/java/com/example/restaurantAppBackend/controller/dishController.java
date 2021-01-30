@@ -13,7 +13,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "*", allowedHeaders = "*")
-public class DishController {
+class DishController {
     @Autowired
     private DishRepository DishRepository;
 
