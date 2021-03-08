@@ -15,7 +15,7 @@
           <v-list-item color="rgba(0, 0, 0, .4)" dark>
             <v-list-item-content>
               <v-list-item-title class="title" id="overlayText">
-                {{ dishPrice }}
+                LKR {{ dishPrice }}.00
               </v-list-item-title>
             </v-list-item-content>
           </v-list-item>
@@ -47,34 +47,41 @@
       >
         <v-btn color="error" block @click="reveal = false"> X </v-btn>
         <v-card-text class="pb-0">
-          <v-combobox
-            v-bind:items="toppings"
-            clearable
-            hide-selected
-            multiple
-            small-chips
-            solo
-            label="Add Extra Toppings"
-          >
-          </v-combobox>
+          <v-select
+            v-model="selectedTopping"
+            label="Pick your favorite Toppings"
+            :items="toppings"
+            item-text="toppingname"
+            item-value="toppingprice"
+            return-object
+          ></v-select>
         </v-card-text>
         <!-- fix the buttons and the choices -->
         <div class="container" style="clear: both">
-          Pizza Cost :
-          <span class="alignright">LKR 989.00</span><br>
-          Toppings Cost :
-          <span class="alignright">LKR 989.00</span><br><br><hr>
-         Total
-          <span class="alignright">LKR 1989.00</span>
-          <hr>
-          
+          Pizza Price :
+          <span class="alignright">LKR {{ dishPrice }}.00</span><br />
+          Toppings Price :
+          <span class="alignright"
+            >LKR {{ this.selectedTopping.toppingprice }}.00</span
+          ><br /><br />
+          <hr />
+          Total
+          <span class="alignright"
+            >LKR
+            {{
+              parseInt(this.dishPrice) +
+              parseInt(this.selectedTopping.toppingprice)
+            }}.00</span
+          >
+          <hr />
         </div>
         <v-card-actions>
           <v-btn
+            id="btnAddtoCart"
             block
             color="primary"
-            @click=" increment() , reveal = false "
             class="btnAddtoCart"
+            @click="addToCart(dishID, selectedTopping.toppingprice)"
           >
             Add To Cart
           </v-btn>
@@ -98,13 +105,42 @@ export default {
   },
   data: () => ({
     reveal: false,
+    selectedTopping: {
+      toppingprice: 0,
+      toppingname: "",
+    },
+    tempTotal: 0,
+    instructions: "",
+    addons: 0,
   }),
   methods: {
-  increment() {
-    this.$store.commit('increment')
-    console.log(this.$store.state.count)
-  }
-}, 
+    addToCart() {
+      if (this.selectedTopping.toppingname != "") {
+        this.instructions +=
+          this.dishName + " with " + this.selectedTopping.toppingname + ",  ";
+      } else {
+        this.instructions += this.dishName + " , ";
+      }
+
+      this.tempTotal =
+        parseInt(this.dishPrice) + parseInt(this.selectedTopping.toppingprice);
+      this.addons += parseInt(this.selectedTopping.toppingprice);
+
+      this.$store.dispatch("addToCart", {
+        imageLink: this.imageLink,
+        dishID: this.dishID,
+        dishName: this.dishName,
+        dishDescription: this.dishDescription,
+        // the price of the selecected topping will be added to the cart as the price of the pizza itself for easy calculations
+        dishPrice: parseInt(this.dishPrice),
+        instructions: this.instructions,
+        addons: this.addons,
+      });
+
+      // closing the button and returning to the null state
+      this.reveal = false
+    },
+  },
 };
 </script>
 

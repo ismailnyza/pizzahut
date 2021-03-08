@@ -9,7 +9,7 @@ import java.util.List;
 public interface PromotionService {
 
 
-    Promotion findByPromoID(Integer promoID);
+    Promotion findByPromoID(Integer promoid);
 
     List<Promotion> findAllpromos();
 }

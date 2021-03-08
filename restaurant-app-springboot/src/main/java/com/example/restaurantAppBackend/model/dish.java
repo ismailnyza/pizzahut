@@ -31,44 +31,5 @@ public class Dish {
     @Column(name = "dishprice")
     private String dishprice;
 
-    //        public Integer getDishid() {
-    //            return dishid;
-    //        }
-    //
-    //        public void setDishid(Integer dishid) {
-    //            this.dishid = dishid;
-    //        }
-    //
-    //        public String getDishname() {
-    //            return dishname;
-    //        }
-    //
-    //        public void setDishname(String dishname) {
-    //            this.dishname = dishname;
-    //        }
-    //
-    //        public String getDishdesc() {
-    //            return dishdesc;
-    //        }
-    //
-    //        public void setDishdesc(String dishdesc) {
-    //            this.dishdesc = dishdesc;
-    //        }
-    //
-    //        public String getDishimg() {
-    //            return dishimg;
-    //        }
-    //
-    //        public void setDishimg(String dishimg) {
-    //            this.dishimg = dishimg;
-    //        }
-    //
-    //        public String getDishprice() {
-    //            return dishprice;
-    //        }
-    //
-    //        public void setDishprice(String dishprice) {
-    //            this.dishprice = dishprice;
-    //    }
 }
 

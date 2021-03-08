@@ -18,16 +18,16 @@ public class Restaurant {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "restaunratid")
-    private Integer restaurantID;
+    @Column(name = "restaurantid")
+    private Integer restaurantid;
 
     @Column(name = "restaurantname")
-    private String restaurantName;
+    private String restaurantname;
 
     @Column(name = "restaurantimg")
-    private String restaurantImg;
+    private String restaurantimg;
 
-    @Column(name = "restaurantdesc")
-    private String restaurantDesc;
+    @Column(name = "restaurantaddress")
+    private String restaurantaddress;
 
 }

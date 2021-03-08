@@ -15,7 +15,6 @@ public class DishServiceImpl implements DishService {
         this.dishRepository = dishRepository;
     }
 
-
     @Override
     public Dish findDishes(Integer dishID) {
         return dishRepository.findDishByDishid(dishID);
@@ -24,6 +23,13 @@ public class DishServiceImpl implements DishService {
     @Override
     public List<Dish> findAllDishes() {
         return dishRepository.findAll();
+    }
+
+    @Override
+    public List<Dish> saveAllDishes(List<Dish> dishesList) {
+        // this should work i think lets see
+//        works nice
+        return dishRepository.saveAll(dishesList);
     }
 
 }

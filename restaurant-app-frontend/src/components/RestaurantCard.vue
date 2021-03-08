@@ -1,6 +1,5 @@
 <template>
  <v-card
-    :loading="loading"
     class="mx-auto my-12"
     max-width="374"
     v-bind:id="RestaurantID" 
@@ -21,7 +20,7 @@
             <v-list-item-content>
               <v-list-item-title class="title" >
                 <!-- fix here -->
-                <v-text>{{ RestaurantName }}</v-text>
+                <span>{{ RestaurantName }}</span>
               </v-list-item-title>
             </v-list-item-content>
           </v-list-item>
@@ -30,7 +29,6 @@
     </v-img>
 
     <v-card-title><v-btn color="primary" v-bind:href="RestaurantAddress">view on google maps</v-btn></v-card-title>
-    <v-card-subtitle>{{ dishDescription }}</v-card-subtitle>
 
   </v-card>
   </template>
@@ -62,6 +60,5 @@ li {
 }
 a {
     margin: 2.5%;
-
 }
 </style>

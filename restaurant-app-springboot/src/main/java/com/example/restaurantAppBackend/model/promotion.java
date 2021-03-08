@@ -17,20 +17,18 @@ public class Promotion {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "promoid")
-    private Integer promoID;
+    private Integer promoid;
 
     @Column(name = "promoname")
-    private String promoName;
+    private String promoname;
 
     @Column(name = "promodesc")
-    private String promoDesc;
+    private String promodesc;
 
     @Column(name = "promoimg")
-    private String promoImg;
+    private String promoimg;
 
     @Column(name = "promoprice")
-    private String promoPrice;
-
-    //todo should connect 2 dishes or something think of that later
+    private String promoprice;
 
 }

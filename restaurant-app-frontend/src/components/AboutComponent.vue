@@ -2,7 +2,7 @@
   <div class="hello">
     <div class="contianer">
       <div class="row">
-        <div class="col-5 mx-auto" id="panthImage">
+        <div class="col-4 mx-auto" id="panthImage">
           <img
             src="..\assets\backgroundimage1.jpg"
             class="img-fluid float-left"
@@ -19,7 +19,7 @@
 
           <v-btn color="error" block elevation="1" raised rounded to="/Order">  Order Now !</v-btn>
           <br>
-          <v-btn color="error" block elevation="1" raised rounded to="/Order">  Visit Us</v-btn>
+          <v-btn color="error" block elevation="1" raised rounded to="/Restaurants">  Visit Us</v-btn>
         </div>
       </div>
     </div>

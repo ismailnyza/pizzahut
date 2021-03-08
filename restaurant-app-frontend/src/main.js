@@ -10,6 +10,9 @@ import vuetify from './plugins/vuetify';
 import 'roboto-fontface/css/roboto/roboto-fontface.css'
 import '@mdi/font/css/materialdesignicons.css'
 import axios from 'axios';
+import store from '../src/Store.js'
+
+// third party addons
 
 
 Vue.config.productionTip = false
@@ -17,17 +20,7 @@ Vue.config.productionTip = false
 // state management
 Vue.use(Vuex , axios )
 
-const store = new Vuex.Store({
-  state: {
-    count: 0
-  },
-  mutations: {
-    increment (state) {
-      state.count++
-    }
-  }
-})
-
+fetch('/')
 
 new Vue({
   
@@ -37,3 +30,4 @@ new Vue({
   vuetify,
   render: h => h(App)
 }).$mount('#app')
+

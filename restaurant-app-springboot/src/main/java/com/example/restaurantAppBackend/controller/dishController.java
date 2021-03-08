@@ -3,23 +3,20 @@ package com.example.restaurantappBackend.controller;
 import com.example.restaurantappBackend.Repositories.DishRepository;
 import com.example.restaurantappBackend.model.Dish;
 import com.example.restaurantappBackend.services.DishServiceImpl;
+import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Data
 @RestController
-@CrossOrigin(origins = "*", allowedHeaders = "*")
 class DishController {
     @Autowired
     private DishRepository DishRepository;
 
     @Autowired
     private DishServiceImpl dishService;
-
 
     @GetMapping("/service/Dish/getAllDishes")
     public List<Dish> getAllDishes() {
@@ -31,5 +28,7 @@ class DishController {
         return dishService.findDishes(DishID);
     }
 
-
+    @PostMapping("/service/Dish/UpdateAll")
+    public List<Dish> saveAllDishes(@RequestBody List<Dish> allDishes)
+    {return  dishService.saveAllDishes(allDishes);}
 }

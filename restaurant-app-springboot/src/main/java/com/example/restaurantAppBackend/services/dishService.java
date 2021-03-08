@@ -7,6 +7,7 @@ import java.util.List;
 
 @Component
 public interface DishService {
-    Dish findDishes(Integer dishIDList);
+    Dish findDishes(Integer dishid);
     List<Dish> findAllDishes();
+    List<Dish> saveAllDishes(List<Dish> dishesList);
 }

@@ -2,25 +2,20 @@ package com.example.restaurantappBackend;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-@SpringBootApplication
+
+
+@SpringBootApplication(exclude = {SecurityAutoConfiguration.class })
 @RestController
 public class    RestaurantAppBackendApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(RestaurantAppBackendApplication.class, args);
+        System.out.println("Back End Is online");
     }
 
 
-        public WebMvcConfigurer corsConfigurer(){
-            return new WebMvcConfigurer(){
-                @Override
-                public  void  addCorsMappings(CorsRegistry registry){
-                    registry.addMapping("/**").allowedOrigins("*");
-                }
-            };
-        }
+
     }

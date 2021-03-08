@@ -1,37 +1,33 @@
 package com.example.restaurantappBackend.controller;
 
-import com.example.restaurantappBackend.Repositories.RestaurantRepo;
+import com.example.restaurantappBackend.Repositories.RestaurantRepository;
 import com.example.restaurantappBackend.model.Restaurant;
-import com.example.restaurantappBackend.services.RestaurantService;
+import com.example.restaurantappBackend.services.RestaurantServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 
 @RestController
-@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class RestaurantController {
 
-    private final RestaurantRepo restaurantRepo;
+    @Autowired
+    private RestaurantRepository restaurantRepository;
 
     @Autowired
-    private RestaurantService restaurantService;
-
-    RestaurantController(RestaurantRepo resturantRepo) {
-        this.restaurantRepo = resturantRepo;
-    }
+    private RestaurantServiceImpl restaurantService;
 
     @GetMapping("/service/Restaurant/getAllRestaurants")
-    public ResponseEntity<?> getAllRestaurants() {
-        return ResponseEntity.ok(restaurantService.findAllRestaurant());
+    public List<Restaurant> getAllRestaurants() {
+        return restaurantService.findAllRestaurant();
     }
 
     @GetMapping("/service/Restaurant/{RestaurantID}")
     Restaurant getRestaurantByID(@PathVariable Integer RestaurantID) {
-        return restaurantRepo.findById(RestaurantID).orElseThrow();
+        return restaurantService.findRestaurantByID(RestaurantID);
     }
 
 }
