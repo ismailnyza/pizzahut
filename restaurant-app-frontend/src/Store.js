@@ -2,8 +2,10 @@ import Vue from "vue";
 import Vuex from "vuex";
 import axios from "axios";
 import { Date } from "core-js";
+import Keycloak from "keycloak-js";
 
-Vue.use(Vuex);
+
+Vue.use(Vuex , Keycloak);
 
 export default new Vuex.Store({
   // state is the same as what would typically go inside of the data object when using Vue without Vuex.
@@ -15,6 +17,12 @@ export default new Vuex.Store({
       quantity: 0,
       instructions : "",
       addons: 0
+    },
+    User: {
+      userID : "",
+      userToken : "",
+      isAuthenticated : false,
+      userType : false
     },
     currentPageIndex: 0,
     dishes: [],

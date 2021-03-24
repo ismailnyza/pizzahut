@@ -6,12 +6,25 @@ import Promotions from "../views/Promotions.vue";
 import Restaurants from "../views/Restaurants";
 import Cart from "../views/Cart";
 import ManageMain from "../views/ManageMain";
+import Store from "../Store";
 
 Vue.use(VueRouter);
 
+// ask if this is okay
+function loginCheck(to, from , next) {
+  if (Store.state.User.isAuthenticated == true) {
+    console.log(Store.state.User.isAuthenticated);
+    next();
+  } else {
+    alert("Please login");
+    console.log(Store.state.User.isAuthenticated);
+    next("/");
+  }
+}
+
 const routes = [
   {
-    path: "/",
+    path: "",
     name: "Home",
     component: Home,
   },
@@ -38,6 +51,7 @@ const routes = [
   {
     path: "/Manage",
     name: "Manage",
+    beforeEnter: loginCheck,
     component: ManageMain,
   },
 ];

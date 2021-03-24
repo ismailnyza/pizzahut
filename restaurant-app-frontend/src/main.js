@@ -18,17 +18,17 @@ import Keycloak from "keycloak-js";
 Vue.config.productionTip = false;
 
 // state management
-Vue.use(Vuex, axios );
+Vue.use(Vuex, axios  , router);
 
 fetch("/");
 
 // adding key cloak
 
 let initOptions = {
-  url: "http://127.0.0.1:8180/auth",
+  url: "http://127.0.0.1:8080/auth",
   realm: "pizzahutapp",
   clientId: "pizzahutkey",
-  onLoad: "login-required",
+  onLoad: "check-sso",
 };
 
 let keycloak = Keycloak(initOptions);
@@ -37,18 +37,26 @@ keycloak
   .init({ onLoad: initOptions.onLoad })
   .then((auth) => {
     if (!auth) {
-      window.location.reload();
-    } else {
-      // Vue.$log.info("Authenticated");
-
       new Vue({
         el: "#app",
         store,
         router,
         vuetify,
         render: (h) => h(App,
-          //  { props: { keycloak: keycloak } 
-        // }
+           { props: { keycloak: keycloak } 
+        }
+          ),
+      });
+    } else {
+      // Vue.$log.info("Authenticated");
+      new Vue({
+        el: "#app",
+        store,
+        router,
+        vuetify,
+        render: (h) => h(App,
+           { props: { keycloak: keycloak } 
+        }
           ),
       });
     }
