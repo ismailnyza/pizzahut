@@ -1,216 +1,304 @@
 <template>
   <div>
-    <div class="container" id="dishes">
-      <h2>All Dishes</h2>
-      <!-- ------ -->
-      <v-data-table :headers="headers" :items="dishes" sort-by="dishid">
-        <template v-slot:top>
-          <v-toolbar flat>
-            <v-toolbar-title>Edit Dishes</v-toolbar-title>
-            <v-divider class="mx-4" inset vertical></v-divider>
-            <v-spacer></v-spacer>
-            <v-dialog v-model="dialog" max-width="500px">
-              <template v-slot:activator="{ on, attrs }">
-                <v-btn
-                  color="primary"
-                  dark
-                  class="mb-2"
-                  v-bind="attrs"
-                  v-on="on"
-                >
-                  New Item
-                </v-btn>
-              </template>
-              <v-card>
-                <!-- card to show the edited item -->
-                <v-card-text>
-                  <v-container>
-                    <v-row>
-                      <v-col cols="12" sm="6" md="4">
-                        <v-text-field
-                          v-model="editedItem.dishname"
-                          label="Dish Name"
-                        ></v-text-field>
-                      </v-col>
-                      <v-col cols="12" sm="6" md="4">
-                        <v-text-field
-                          v-model="editedItem.dishprice"
-                          label="Dish Price"
-                        ></v-text-field>
-                      </v-col>
-                      <v-col cols="12" sm="12" md="8">
-                        <v-text-field
-                          v-model="editedItem.dishdesc"
-                          label="Dish Description"
-                        ></v-text-field>
-                      </v-col>
-                      <v-col cols="12" sm="12" md="8">
-                        <v-text-field
-                          v-model="editedItem.dishimg"
-                          label="Dish Image Link"
-                        ></v-text-field>
-                      </v-col>
-                      <v-col cols="12" sm="6" md="4">
-                        <!-- this should be made disabled -->
-                        <v-text-field
-                          v-model="editedItem.dishid"
-                          label="dishID"
-                        ></v-text-field>
-                      </v-col>
-                    </v-row>
-                  </v-container>
-                </v-card-text>
+    <!--  -->
+    <div class="row"></div>
 
-                <!-- --------------- -->
-                <!-- this should be added to the table  -->
-                <v-card-actions>
-                  <v-spacer></v-spacer>
-                  <v-btn color="blue darken-1" text @click="close">
-                    Cancel
-                  </v-btn>
-                  <v-btn color="blue darken-1" text @click="save"> Save </v-btn>
-                </v-card-actions>
-              </v-card>
-            </v-dialog>
-            <v-dialog v-model="dialogDelete" max-width="500px">
-              <v-card>
-                <v-card-title class="headline"
-                  >Are you sure you want to delete this item?</v-card-title
-                >
-                <v-card-actions>
-                  <v-spacer></v-spacer>
-                  <v-btn color="blue darken-1" text @click="closeDelete"
-                    >Cancel</v-btn
-                  >
-                  <v-btn color="blue darken-1" text @click="deleteItemConfirm"
-                    >OK</v-btn
-                  >
-                  <v-spacer></v-spacer>
-                </v-card-actions>
-                <!-- --------------- -->
-              </v-card>
-            </v-dialog>
-          </v-toolbar>
-        </template>
-        <!-- crud operations -->
-        <!-- why does this show a bug idk man -->
-        <template v-slot:item.actions="{ item }">
-          <v-icon small class="mr-2" @click="editItem(item)">
-            mdi-pencil
-          </v-icon>
-          <v-icon small @click="deleteItem(item)"> mdi-delete </v-icon>
-        </template>
-        <template v-slot:no-data>
-          <v-btn color="primary" @click="initialize"> Reset </v-btn>
-        </template>
-      </v-data-table>
-      <v-btn @click="confirmChanges()">Confirm Changes </v-btn>
-      <v-btn @click="discardAllChanges()">Discard All Changes </v-btn>
-      <!-- ------ -->
+    <!-- pagination thing -->
+
+    <div class="row">
+      <div class="col-md-3">
+        <h3 style="padding-left: 8%; padding-top: 16%; padding-bottom: 3%">
+          {{ dishType }} List
+        </h3>
+        <ul class="list-group" id="tutorials-list">
+          <li
+            class="list-group-item"
+            :class="{ active: count == currentIndex }"
+            v-for="(dish, count) in dishes"
+            v-bind:key="count"
+            @click="setActiveDish(dish, count)"
+          >
+            {{ dish.dishid }} : {{ dish.dishname }}
+          </li>
+        </ul>
+
+        <v-pagination
+          v-model="page"
+          :length="dishcount"
+          @input="handlePageChange"
+          style="padding-left: 5%; padding-bottom: 3%; margin: 0%; float: left"
+        ></v-pagination>
+      </div>
+      <!--  -->
+      <div class="col-md-7">
+        <div
+          class="row"
+          style="padding-left: 2%; padding-right: 5%; padding-top: 5%"
+        >
+          <sub>Page size</sub>
+          <v-select
+            v-model="pageSize"
+            :items="pageSizes"
+            @change="handlePageChange"
+          >
+          </v-select>
+          <sub>Dish Type</sub>
+          <v-select
+            v-model="dishType"
+            :items="dishTypes"
+            @change="handleDishChange"
+          >
+          </v-select>
+          <hr style="width: 0%" />
+        </div>
+        <div v-if="currentDish">
+          <div class="col-md-5">
+            <h4>Customize {{ dishType }}</h4>
+            <!-- ----- -->
+            <div>
+              <label
+                ><strong> {{ dishType }} Name:</strong></label
+              >
+              <v-text-field
+                v-model="currentDish.dishname"
+                :value="currentDish.dishname"
+              ></v-text-field>
+            </div>
+            <!-- ----- -->
+            <div>
+              <label
+                ><strong> {{ dishType }} Price:</strong></label
+              >
+              <v-text-field
+                v-model="currentDish.dishprice"
+                :value="currentDish.dishprice"
+                prefix="LKR"
+              ></v-text-field>
+            </div>
+            <div>
+              <label
+                ><strong> {{ dishType }} Description:</strong></label
+              >
+              <v-text-field
+                v-model="currentDish.dishdesc"
+                :value="currentDish.dishname"
+              ></v-text-field>
+            </div>
+            <!-- ----- -->
+            <!-- ----- -->
+            <div>
+              <label
+                ><strong> {{ dishType }} imageLink :</strong></label
+              >
+              <v-text-field
+                v-model="currentDish.dishimg"
+                :value="currentDish.dishimg"
+              ></v-text-field>
+            </div>
+            <!-- buttons -->
+            <v-btn
+              class="btnCustomizePizza"
+              color="primary"
+              @click="updateDish()"
+            >
+              Confirm
+            </v-btn>
+            <v-btn
+              class="btnCustomizePizza"
+              color="red"
+              @click="discardChanges()"
+            >
+              Discard
+            </v-btn>
+            <v-btn
+              class="btnCustomizePizza"
+              color="yellow"
+              @click="deleteDishbyID()"
+            >
+              Delete
+            </v-btn>
+            <v-btn
+              class="btnCustomizePizza"
+              color="yellow"
+              @click="createDish()"
+            >
+              Create
+            </v-btn>
+            <!-- ----- -->
+          </div>
+        </div>
+        <div v-else>
+          <br />
+          <h2 class="clickOnDish">Please click on a {{ dishType }}</h2>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-export default {
-  data: () => ({
-    dialog: false,
-    dialogDelete: false,
-    headers: [
-      { text: "DishID", value: "dishid" },
-      { text: "Dish Name", value: "dishname" },
-      { text: "Dish Price", value: "dishprice", sortable: false },
-      { text: "Dish Description", value: "dishdesc", sortable: false },
-      { text: "Actions", value: "actions", sortable: false },
-    ],
-    dishes: [],
+// import axios from 'axios';
+import pizzaService from "../services/pizzaService";
+import updateService from "../services/updateService";
+import deleteService from "../services/deleteService";
 
-    editedIndex: -1,
-    editedItem: {
-      dishid: "",
-      dishname: "",
-      dishdesc: "",
-      dishimg: "",
-      dishprice: "",
-    },
-    defaultItem: {
-      dishid: "",
-      dishname: "",
-      dishdesc: "",
-      dishimg: "",
-      dishprice: "",
-    },
+export default {
+  name: "tutorials-list",
+
+  data: () => ({
+    dishes: [],
+    dishcount: null,
+    currentDish: null,
+    currentIndex: -1,
+    searchTitle: "",
+    page: 1,
+    count: 0,
+    pageSize: 3,
+    pageSizes: [3, 6, 9],
+    dishType: "Pizza",
+    dishTypes: ["Pizza", "Entree", "Appetizer", "Meal"],
+    sortType: "dishid",
+    nextIndex: 0,
   }),
 
-  watch: {
-    dialog(val) {
-      val || this.close();
-    },
-    dialogDelete(val) {
-      val || this.closeDelete();
-    },
-  },
-  // this line doesnt run it should be fixed
-  created() {
-    this.initialize();
-  },
-
   methods: {
-    initialize() {
-      this.dishes = this.$store.state.dishes;
-    },
+    getRequestParams(page, pageSize, sortType, dishType) {
+      let params = {};
 
-    editItem(item) {
-      this.editedIndex = this.dishes.indexOf(item);
-      this.editedItem = Object.assign({}, item);
-      this.dialog = true;
-    },
-
-    deleteItem(item) {
-      this.editedIndex = this.dishes.indexOf(item);
-      this.editedItem = Object.assign({}, item);
-      this.dialogDelete = true;
-    },
-
-    deleteItemConfirm() {
-      this.dishes.splice(this.editedIndex, 1);
-      this.closeDelete();
-    },
-
-    close() {
-      this.dialog = false;
-      this.$nextTick(() => {
-        this.editedItem = Object.assign({}, this.defaultItem);
-        this.editedIndex = -1;
-      });
-    },
-
-    closeDelete() {
-      this.dialogDelete = false;
-      this.$nextTick(() => {
-        this.editedItem = Object.assign({}, this.defaultItem);
-        this.editedIndex = -1;
-      });
-    },
-
-    save() {
-      if (this.editedIndex > -1) {
-        Object.assign(this.dishes[this.editedIndex], this.editedItem);
-      } else {
-        this.dishes.push(this.editedItem);
+      // if the field is not null
+      if (page) {
+        params["page"] = page;
       }
-      this.close();
+
+      if (pageSize) {
+        params["pageSize"] = pageSize;
+      }
+      if (sortType) {
+        params["sortType"] = sortType;
+      }
+      if (dishType) {
+        params["dishType"] = dishType;
+      }
+      return params;
     },
 
-    confirmChanges() {
-      //Doesnt update the data locally it should lets fix that it should update the back end not the front end lol
-      this.$store.dispatch("postDishes")
-      console.log("dishes Have Been Updated")
-      
-    }
+    retrieveDishes() {
+      const params = this.getRequestParams(
+        this.page,
+        this.pageSize,
+        this.sortType,
+        this.dishType
+      );
+
+      pizzaService
+        .getAllPaginated(params)
+        .then((response) => {
+          const a = response.data;
+          this.dishes = a.content;
+          this.count = a.totalElements;
+          this.nextIndex = this.dishes[this.dishes.length - 1].dishid
+          this.dishcount = Math.ceil(this.count / this.pageSize);
+          console.log(this.dishcount)
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    },
+
+    handlePageChange(value) {
+      this.pageno = value;
+      this.currentDish = null;
+      this.currentIndex = null;
+      this.retrieveDishes();
+    },
+    handleDishChange(value) {
+      this.dishType = value;
+      this.currentDish = null;
+      this.currentIndex = null;
+      this.retrieveDishes();
+    },
+
+    handlePageSizeChange(event) {
+      this.pageSize = event.target.value;
+      this.page = 1;
+      this.currentDish = null;
+      this.currentIndex = null;
+      this.retrieveDishes();
+    },
+
+    refreshList() {
+      this.retrieveDishes();
+      this.currentDish = null;
+      this.currentIndex = -1;
+    },
+
+    setActiveDish(dish, index) {
+      this.currentDish = dish;
+      this.currentIndex = index;
+    },
+
+    updateDish() {
+      const params = this.getRequestParams(
+        this.page,
+        this.pageSize,
+        this.sortType,
+        this.dishType
+      );
+      const currentDish = this.currentDish;
+
+      updateService
+        .getUpdatedDish(params, currentDish)
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    },
+
+    removeAllTutorials() {
+      pizzaService
+        .deleteAll()
+        .then((response) => {
+          console.log(response.data);
+          this.refreshList();
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    },
+    discardChanges() {
+      this.currentDish = null;
+      this.currentIndex = null;
+    },
+    deleteDishbyID() {
+      const params = this.getRequestParams(this.dishType);
+      const dishid = this.currentDish.dishid;
+      console.log(params);
+      deleteService.deleteById(params, dishid);
+      this.refreshList();
+    },
+    createDish() {
+      const params = this.getRequestParams(this.count); 
+     console.log(params.page)
+    //  come back to this later
+    },
+  },
+
+  mounted() {
+    this.retrieveDishes();
   },
 };
 </script>
 
 <style>
+.btnCustomizePizza {
+  margin-left: 1%;
+  align-items: center;
+}
+
+.clickOnDish {
+  margin-top: 15%;
+  margin-left: 28%;
+}
 </style>

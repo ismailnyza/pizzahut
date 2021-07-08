@@ -1,8 +1,8 @@
 <template>
-  <div>
-    <h3>We have multiple Restaurants to Serve you better</h3>
+  <div class="restaurantPage">
+    <h3 class="pageHeader display-3">We have multiple Restaurants to Serve you better</h3>
     <v-divider> </v-divider>
-    <div class="row">
+    <div class="row " style="padding-left:13%; padding-right:10%;">
       <restaurant-card
         v-for="x in restaurants"
         v-bind:key="x.restaurantid"
@@ -37,7 +37,22 @@ export default {
 };
 </script>
 <style>
-body {
-  padding: 2.3%;
+.pageHeader{
+  padding-left: 2.5%;
+  padding-top : 3%;
+  padding-bottom : 1%;
+  font-weight: 300;
+  color: white;
 }
+
+.restaurantPage{
+  background-color: #1d1c1c;
+}
+
+hr{
+   background-color: white;
+  width: 95%;
+  float: center;
+  margin-left: 1%;
+  border-top: 3px double;}
 </style>

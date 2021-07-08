@@ -1,7 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import "es6-promise/auto";
-
 import App from "./App.vue";
 import router from "./router";
 import "bootstrap";
@@ -12,13 +11,20 @@ import "@mdi/font/css/materialdesignicons.css";
 import axios from "axios";
 import store from "../src/Store.js";
 import Keycloak from "keycloak-js";
+import { BootstrapVue } from "bootstrap-vue";
+import "bootstrap/dist/css/bootstrap.css";
+import "bootstrap-vue/dist/bootstrap-vue.css";
+
+// register jw pagination component globally
+import JwPagination from "jw-vue-pagination";
+Vue.component("jw-pagination", JwPagination);
 
 // third party addons
 
 Vue.config.productionTip = false;
 
 // state management
-Vue.use(Vuex, axios  , router);
+Vue.use(Vuex, axios, router, BootstrapVue);
 
 fetch("/");
 
@@ -33,35 +39,27 @@ let initOptions = {
 
 let keycloak = Keycloak(initOptions);
 
-keycloak
-  .init({ onLoad: initOptions.onLoad })
-  .then((auth) => {
-    if (!auth) {
-      new Vue({
-        el: "#app",
-        store,
-        router,
-        vuetify,
-        render: (h) => h(App,
-           { props: { keycloak: keycloak } 
-        }
-          ),
-      });
-    } else {
-      // Vue.$log.info("Authenticated");
-      new Vue({
-        el: "#app",
-        store,
-        router,
-        vuetify,
-        render: (h) => h(App,
-           { props: { keycloak: keycloak } 
-        }
-          ),
-      });
-    }
+keycloak.init({ onLoad: initOptions.onLoad }).then((auth) => {
+  if (!auth) {
+    new Vue({
+      el: "#app",
+      store,
+      router,
+      vuetify,
+      render: (h) => h(App, { props: { keycloak: keycloak } }),
+    });
+  } else {
+    // Vue.$log.info("Authenticated");
+    new Vue({
+      el: "#app",
+      store,
+      router,
+      vuetify,
+      render: (h) => h(App, { props: { keycloak: keycloak } }),
+    });
+  }
 
-    //Token Refresh
+  //Token Refresh
   //   setInterval(() => {
   //     keycloak
   //       .updateToken(70)
@@ -87,4 +85,4 @@ keycloak
   // })
   // .catch(() => {
   //   Vue.$log.error("Authenticated Failed");
-  });
+});

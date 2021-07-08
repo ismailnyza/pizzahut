@@ -3,7 +3,7 @@ drop USER admin;
 
 create user admin with password 'password';
 create database pizzahutdb OWNER='admin';
-\connect pizzahutdb;
+connect pizzahutdb;
 alter default privileges grant all on tables to admin;
 alter default privileges grant all on sequences to admin;
 

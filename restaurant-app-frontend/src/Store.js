@@ -9,6 +9,8 @@ Vue.use(Vuex , Keycloak);
 
 export default new Vuex.Store({
   // state is the same as what would typically go inside of the data object when using Vue without Vuex.
+
+  // reason for using state management 
   state: {
     cart: {
       items: [],
@@ -22,7 +24,8 @@ export default new Vuex.Store({
       userID : "",
       userToken : "",
       isAuthenticated : false,
-      userType : false
+      userType : "",
+      userImage : "" , 
     },
     currentPageIndex: 0,
     dishes: [],
@@ -149,7 +152,7 @@ export default new Vuex.Store({
        state.cartAsArray = state.cartAsArray+" "+state.cart.items[index].dishName+"*"+state.cart.items[index].quantity+", "; 
       }
       state.cartAsArray = state.cartAsArray.replace(/(\r\n|\n|\r)/gm," ");
-      axios.post('http://localhost:8080/service/sale',{
+      axios.post('http://localhost:8082/service/sale',{
         "purchasedtotal":String(state.cart.total),
         "purchasedcart": String(state.cartAsArray),
         "purchasedtime" : String(Date().slice(0,15).replace(/-/g,'/'))
@@ -164,14 +167,14 @@ export default new Vuex.Store({
     // --------------------------------------------------------
     loadProducts({ commit }) {
       axios
-        .get("http://localhost:8080/service/Dish/getAllDishes")
+        .get("http://localhost:8082/service/Dish/getAllDishes")
         .then((response) => {
           commit("loadProductsFromAPI", response.data);
         });
     },
     loadBranches({ commit }) {
       axios
-        .get("http://localhost:8080/service/Restaurant/getAllRestaurants")
+        .get("http://localhost:8082/service/Restaurant/getAllRestaurants")
         .then((response) => {
           commit("loadBranchesFromAPI", response.data);
           console.log(response.data)
@@ -179,7 +182,7 @@ export default new Vuex.Store({
     },
     loadPromos({ commit }) {
       axios
-        .get("http://localhost:8080/service/Promo/getAllPromos")
+        .get("http://localhost:8082/service/Promo/getAllPromos")
         .then((response) => {
           commit("loadPromosFromAPI", response.data);
         });
@@ -187,7 +190,7 @@ export default new Vuex.Store({
 
     loadToppings({ commit }) {
       axios
-        .get("http://localhost:8080/service/Topping/getAllToppings")
+        .get("http://localhost:8082/service/Topping/getAllToppings")
         .then((response) => {
           commit("loadToppingsFromAPI", response.data);
         });
@@ -196,7 +199,7 @@ export default new Vuex.Store({
     // response => this.dishid = response.data.dishid ,  this might be needed but lets see
     postDishes() {
       axios
-      .post("http://localhost:8080/service/Dish/UpdateAll" , this.state.dishes)
+      .post("http://localhost:8082/service/Dish/UpdateAll" , this.state.dishes)
       .then(console.log(this.state.dishes))
     },
     // --------------------------------------------------------

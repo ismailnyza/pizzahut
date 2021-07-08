@@ -1,34 +1,35 @@
-
 <template>
-  <div>
-    <div class="container" id="cartcontainer">
+  <div class="cartBody">
+    <div class="container" id="cartcontainer" style="margin-top:5%">
+      <h1 style="font-weight: 300" class="white--text">Your Basket</h1>
       <v-simple-table fixed-header height="100%">
         <template v-slot:default>
           <thead>
-            <tr>
-              <th>Dish Name</th>
-              <th>Unit Price</th>
-              <th>Quantity</th>
-              <th>total item cost</th>
-              <th></th>
-              <th></th>
+            <tr class="tableHeading">
+              <th class="text-center" style="width: 30%">Item</th>
+              <th class="text-center" style="width: 10%">Price</th>
+              <th class="text-center" style="width: 40%">Quantity</th>
+              <th class="text-center" colspan="1" style="width: 10%">
+                Subtotal
+              </th>
+              <th class="text-center" colspan="2"></th>
             </tr>
           </thead>
           <tbody>
             <tr v-for="x in cart" :key="x.dishID">
-              <td>{{ x.dishName }}</td>
-              <td>{{ x.dishPrice }}</td>
-              <td>
-                <vue-number-input
+              <td class="text-center">{{ x.dishName }}</td>
+              <td class="text-center"> Lkr {{ x.dishPrice }}.00</td>
+              <td style="padding-right: 12%; padding-left: 12%">
+               <vue-number-input
                   controls
                   rounded
                   small
                   v-model="x.quantity"
-                  @click ="changeProductQuantity(x.dishID )"
+                  @click ="changeProductQuantity(x.dishID)"
                 ></vue-number-input>
               </td>
-              <td>{{ x.dishPrice * x.quantity }}</td>
-              <td>
+              <td class="text-center"> Lkr {{ x.dishPrice * x.quantity }}.00</td>
+              <td class="text-center">
                 <!-- color="error" -->
                 <!-- @click="removeSingleProductInstance()" -->
 
@@ -53,25 +54,37 @@
               <td></td>
             </tr>
             <tr>
-              <td>addons</td>
-              <td>{{addons}}</td>
+              <td class="text-center">Quantity</td>
+              <td></td>
+              <td colspan="1" class="text-center">{{ quantity }}</td>
+
+              <td colspan="1" class="text-center"></td>
+              <td></td>
+              <td></td>
             </tr>
             <tr>
-              <td>Total</td>
+              <td class="text-center">Total</td>
               <td></td>
-              <td>{{ quantity }}</td>
-              <td>{{ total }}</td>
+              <td></td>
+              <td class="text-center">Lkr {{ total }}.00</td>
               <td></td>
 
               <td></td>
             </tr>
             <tr>
+              <td></td>
+              <td></td>
+              <td></td>
               <td>
                 <v-btn block elevation="2" @click="clearCart()"
-                  >clear Cart</v-btn
+                  color="success" style="white--text">clear Cart</v-btn
                 >
               </td>
-              <td><v-btn block elevation="2" @click="checkOutCart()">Check out</v-btn></td>
+              <td>
+                <v-btn block elevation="2" @click="checkOutCart()"
+                  color="success" style="white--text">Check out</v-btn
+                >
+              </td>
             </tr>
           </tbody>
         </template>
@@ -124,7 +137,15 @@ export default {
       this.$store.dispatch("removeAllInstancesofSingleProductsFromCart" , dishID )
     },
     checkOutCart(){
+      if (this.$store.state.cart.quantity != 0) {
       this.$store.dispatch("checkOutCart")
+      this.$store.dispatch("removeAllProductsFromCart")
+        alert("your order has been checked out")
+      }
+      else{
+      alert("please add items to your cart")
+
+      }
     }
   
   },
@@ -132,7 +153,14 @@ export default {
 </script>
 
 <style>
-.cartcontainer{
+.cartcontainer {
+  height: 100%;
+  padding: 5%;
+  
+}
+
+.cartBody{
+  background-color: #1d1c1c;
   height: 100%;
 }
 </style>
