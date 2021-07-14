@@ -1,86 +1,22 @@
 <template>
-  <v-card class="mx-10 my-15" max-width="260" v-bind:id="dishID">
-    <template slot="progress">
-      <v-progress-linear
-        color="deep-purple"
-        height="10"
-        indeterminate
-      ></v-progress-linear>
-    </template>
-
-    <v-img height="175" v-bind:src="imageLink" v-bind:alt="dishName">
-      <v-row align="end" class="fill-height">
-        <v-col align-self="start" class="pa-0" cols="12"> </v-col>
-        <v-col class="py-0">
-          <v-list-item color="rgba(0, 0, 0, .4)" dark>
-            <v-list-item-content>
-              <v-list-item-title class="title" id="overlayText">
-                {{ dishPrice }}
-              </v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-        </v-col>
-      </v-row>
-    </v-img>
-
-    <v-card-title>{{ dishName }}</v-card-title>
-    <v-card-subtitle>{{ dishDescription }}</v-card-subtitle>
-
-    <v-divider class="mx-4"></v-divider>
-
-    <v-card-actions>
-      <v-btn
-        block
-        color="error"
-        elevation="2"
-        @click="reveal = true"
-        class="btnAddtoCart"
-        >Add to Cart</v-btn
-      >
-    </v-card-actions>
-
-    <v-expand-transition>
-      <v-card
-        v-if="reveal"
-        class="transition-fast-in-fast-out v-card--reveal"
-        style="height: 100%"
-      >
-        <v-btn color="error" block @click="reveal = false"> X </v-btn>
-        <v-card-text class="pb-0">
-          <v-combobox
-            v-bind:items="toppings"
-            clearable
-            hide-selected
-            multiple
-            small-chips
-            solo
-            label="Add Extra Toppings"
-          >
-          </v-combobox>
-        </v-card-text>
-        <!-- fix the buttons and the choices -->
-        <div class="container" style="clear: both">
-          Pizza Cost :
-          <span class="alignright">LKR 989.00</span><br>
-          Toppings Cost :
-          <span class="alignright">LKR 989.00</span><br><br><hr>
-         Total
-          <span class="alignright">LKR 1989.00</span>
-          <hr>
-          
-        </div>
+  <v-card width="45%" height="100%" class="mx-7 my-6">
+    <div class="d-flex flex-no-wrap justify-space-between pizzaCard">
+      <div>
+        <v-card-title class="vCardTitle">{{ dishName }}</v-card-title>
+        <hr>
+        <v-card-text> {{ dishDescription }} </v-card-text>
+        <v-card-text class="cardTxtMoney"> LKR {{ dishPrice }}.00 </v-card-text>
         <v-card-actions>
-          <v-btn
-            block
-            color="primary"
-            @click=" increment() , reveal = false "
-            class="btnAddtoCart"
-          >
-            Add To Cart
-          </v-btn>
+        <v-btn  @click="addToCart(dishID, selectedTopping.toppingprice) " color="success" style="white--text">Add To Cart </v-btn>
         </v-card-actions>
-      </v-card>
-    </v-expand-transition>
+        <br>
+
+      </div>
+
+      <v-avatar class="ma-3" size="175" tile>
+        <v-img :src="imageLink"></v-img>
+      </v-avatar>
+    </div>
   </v-card>
 </template>
 
@@ -98,21 +34,68 @@ export default {
   },
   data: () => ({
     reveal: false,
+    selectedTopping: {
+      toppingprice: 0,
+      toppingname: "",
+    },
+    tempTotal: 0,
+    instructions: "",
+    addons: 0,
   }),
   methods: {
-  increment() {
-    this.$store.commit('increment')
-    console.log(this.$store.state.count)
-  }
-}, 
+    addToCart() {
+      if (this.selectedTopping.toppingname != "") {
+        this.instructions +=
+          this.dishName + " with " + this.selectedTopping.toppingname + ",  ";
+      } else {
+        this.instructions += this.dishName + " , ";
+      }
+
+      this.tempTotal =
+        parseInt(this.dishPrice) + parseInt(this.selectedTopping.toppingprice);
+      this.addons += parseInt(this.selectedTopping.toppingprice);
+
+      this.$store.dispatch("addToCart", {
+        imageLink: this.imageLink,
+        dishID: this.dishID,
+        dishName: this.dishName,
+        dishDescription: this.dishDescription,
+        // the price of the selecected topping will be added to the cart as the price of the pizza itself for easy calculations
+        dishPrice: parseInt(this.dishPrice),
+        instructions: this.instructions,
+        addons: this.addons,
+      });
+
+      // closing the button and returning to the null state
+      this.reveal = false;
+    },
+  },
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-/* h3 {
-  margin: 40px 0 0;
-} */
+.vCardTitle{
+  font-size: 100%;
+  font-weight: 400;
+  padding: 5%  0  0 5% ;
+  margin: 0;
+  line-height: 1;
+}
+
+.pizzaCard{
+  background-color: whitesmoke;
+  
+}
+
+.cardTxtMoney{
+  font-weight: 400;
+  font-style: italic;
+  padding-bottom: 0;
+}
+
+
+
 ul {
   list-style-type: none;
   padding: 0;

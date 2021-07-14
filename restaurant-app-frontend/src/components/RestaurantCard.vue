@@ -1,9 +1,9 @@
 <template>
  <v-card
-    :loading="loading"
-    class="mx-auto my-12"
+    class="mx-6 my-12"
     max-width="374"
     v-bind:id="RestaurantID" 
+    color="success"
   >
     <template slot="progress">
       <v-progress-linear
@@ -13,15 +13,14 @@
       ></v-progress-linear>
     </template>
 
-    <v-img height="250" v-bind:src="imageLink" v-bind:alt="RestaurantName">
+    <v-img height="175" v-bind:src="imageLink" v-bind:alt="RestaurantName">
       <v-row align="end" class="fill-height">
         <v-col align-self="start" class="pa-0" cols="12"> </v-col>
         <v-col class="py-0">
           <v-list-item color="rgba(0, 0, 0, .4)" dark>
             <v-list-item-content>
               <v-list-item-title class="title" >
-                <!-- fix here -->
-                <v-text>{{ RestaurantName }}</v-text>
+                <span style="font-weight:350">{{ RestaurantName }}</span>
               </v-list-item-title>
             </v-list-item-content>
           </v-list-item>
@@ -29,8 +28,7 @@
       </v-row>
     </v-img>
 
-    <v-card-title><v-btn color="primary" v-bind:href="RestaurantAddress">view on google maps</v-btn></v-card-title>
-    <v-card-subtitle>{{ dishDescription }}</v-card-subtitle>
+    <v-card-title><v-btn color="white" style="color:green; font-weight:350;" v-bind:href="RestaurantAddress" >view on google maps</v-btn></v-card-title>
 
   </v-card>
   </template>
@@ -62,6 +60,5 @@ li {
 }
 a {
     margin: 2.5%;
-
 }
 </style>

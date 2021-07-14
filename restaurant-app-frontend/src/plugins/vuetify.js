@@ -11,10 +11,12 @@ export default new Vuetify({
         primary: '#311b92',
         secondary: '#424242',
         accent: '#82B1FF',
-        error: '#c62828',
+        error: '#e2293f',
         info: '#2196F3',
-        success: '#4CAF50',
-        warning: '#FFC107'
+        success: '#41c485',
+        warning: '#f38404',
+        // added by me
+        black: "#1d1c1c"
       },
     },
   },
