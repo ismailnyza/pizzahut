@@ -1,4 +1,4 @@
-package com.example.restaurantappBackend.app.webconfig;
+package com.example.bookingSystem.app.webconfig;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

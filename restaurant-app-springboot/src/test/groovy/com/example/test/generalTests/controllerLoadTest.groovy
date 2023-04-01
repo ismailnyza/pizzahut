@@ -1,13 +1,12 @@
 package com.example.test.generalTests
 
-import com.example.restaurantappBackend.app.RestaurantAppBackendApplication
-import com.example.restaurantappBackend.app.controller.*
+import com.example.bookingSystem.app.BookingsystemApplication
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import spock.lang.Specification
 
 //this is vital
-@SpringBootTest(classes = RestaurantAppBackendApplication.class)
+@SpringBootTest(classes = BookingsystemApplication.class)
 
 class controllerLoadTest extends Specification {
 
