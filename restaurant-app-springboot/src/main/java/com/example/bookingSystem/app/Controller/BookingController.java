@@ -3,11 +3,14 @@ package com.example.bookingSystem.app.Controller;
 import com.example.bookingSystem.app.exceptions.ResourceNotFoundException;
 import com.example.bookingSystem.app.model.Booking;
 import com.example.bookingSystem.app.repository.BookingRepository;
+import com.fasterxml.jackson.databind.JsonNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 @RestController
@@ -32,11 +35,6 @@ public class BookingController {
         Booking booking = bookingRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Booking not found with id: " + id));
         return new ResponseEntity<>(booking, HttpStatus.OK);
-    }
-
-    @GetMapping("/online")
-    public void getapiresponse() {
-
     }
 
     @PostMapping("/create")
@@ -68,6 +66,19 @@ public class BookingController {
 
         bookingRepository.delete(booking);
         return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/search")
+    public Booking searchBooking(@RequestBody JsonNode request) {
+        LocalDate date = LocalDate.parse(request.get("bookingDate").asText());
+        LocalTime time = LocalTime.parse(request.get("bookingTime").asText());
+        String doctor = request.get("bookingDoctor").asText();
+        Booking booking = bookingRepository.findBookingByBookingDateAndBookingTimeAndBookingDoctor(date, time, doctor);
+        System.out.println("date:" + date);
+        System.out.println("time:" + time);
+        System.out.println("doctor:" + doctor);
+        System.out.println("booking:" + booking);
+        return booking;
     }
 
 }

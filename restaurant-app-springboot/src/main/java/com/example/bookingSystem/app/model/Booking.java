@@ -1,9 +1,9 @@
 package com.example.bookingSystem.app.model;
 
+
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-import javax.naming.Name;
 import javax.persistence.*;
 
 import lombok.AllArgsConstructor;
@@ -29,6 +29,6 @@ public class Booking {
 
     private String bookingCustomer;
 
-    private double bookingPrice;
+    private Double bookingPrice;
 
 }

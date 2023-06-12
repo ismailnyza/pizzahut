@@ -4,8 +4,9 @@ import com.example.bookingSystem.app.model.Booking;
 import com.example.bookingSystem.app.repository.BookingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.ResponseStatus;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 @Service
@@ -21,7 +22,6 @@ public class BookingService {
     public List<Booking> getAllBookings() {
         return bookingRepository.findAll();
     }
-
     public Booking getBookingById(Long id) {
         return bookingRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Booking not found with id: " + id));
@@ -50,6 +50,11 @@ public class BookingService {
                 .orElseThrow(() -> new ResourceNotFoundException("Booking not found with id: " + id));
 
         bookingRepository.delete(booking);
+    }
+
+    public String searchBooking(String doctorName , LocalDate date , LocalTime time){
+        bookingRepository.findBookingByBookingDateAndBookingTimeAndBookingDoctor(date , time, doctorName);
+        return "exists";
     }
 
 }
